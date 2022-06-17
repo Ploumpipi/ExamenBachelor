@@ -7,10 +7,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import androidx.annotation.Nullable;
-
-import com.example.examenbachelor.bean.NFT;
-import com.example.examenbachelor.bean.Note;
 import com.example.examenbachelor.bean.Users;
 
 import java.util.ArrayList;
@@ -26,7 +22,7 @@ public class HelperNFT extends SQLiteOpenHelper{
     private static final String DATABASE_NAME = "ChatRingan";
 
     // Table name: Note.
-    private static final String TABLE_USERS = "Users";
+    private static final String TABLE_USERS = "users";
     private static final String TABLE_NFT = "NFT";
 
     private static final String COLUMN_PSEUDO ="Pseudo";
@@ -64,7 +60,8 @@ public class HelperNFT extends SQLiteOpenHelper{
                 + COLUMN_IMAGE + " BLOB" + ")";
 
         // Execute Script.
-        db.execSQL(tableUsers);
+        //db.execSQL(tableUsers);
+        db.execSQL("create table users (pseudo TEXT primary key, password TEXT, solde REAL, DoB NUMERIC, mail TEXT)");
         db.execSQL(tableNFT);
 
     }
@@ -108,6 +105,22 @@ public class HelperNFT extends SQLiteOpenHelper{
         db.close();
     }
 
+    public boolean insertData(String pseudo, String pwd, String mail){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put(COLUMN_PSEUDO, pseudo);
+        contentValues.put(COLUMN_PASSWORD, pwd);
+        contentValues.put(COLUMN_MAIL_ADDRESS, mail);
+
+
+        long result = db.insert(TABLE_USERS, null, contentValues);
+        if(result==-1)
+            return false;
+        else
+            return true;
+    }
+
     public Users getUsers(String pseudo) {
         SQLiteDatabase db = this.getReadableDatabase();
 
@@ -121,6 +134,26 @@ public class HelperNFT extends SQLiteOpenHelper{
                 cursor.getString(1), cursor.getString(2), cursor.getString(3));
         // return user
         return user;
+    }
+
+    public Boolean checkUsersInformation(String Pseudo, String Password){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        Cursor cursor = db.rawQuery("SELECT * FROM users WHERE pseudo = ? AND password = ?" , new String[]{Pseudo, Password});
+        if(cursor.getCount()>0)
+            return true;
+        else
+            return false;
+    }
+
+    public Boolean checkPseudo(String Pseudo){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        Cursor cursor = db.rawQuery("SELECT * FROM users WHERE pseudo = ? " , new String[]{Pseudo});
+        if(cursor.getCount()>0)
+            return true;
+        else
+            return false;
     }
 
     public List<Users> getAllUsers() {

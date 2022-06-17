@@ -1,6 +1,5 @@
 package com.example.examenbachelor;
 import com.example.examenbachelor.bean.Note;
-import com.example.examenbachelor.bean.Users;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -16,10 +15,8 @@ import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ListView;
-import android.widget.TextView;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -30,21 +27,19 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLConnection;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 
 import javax.net.ssl.HttpsURLConnection;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ListView listView;
+    private HelperNFT dbNFT;
     private Button btnConfirm;
     private Button btnCreateAccount;
+    private EditText Pseudo;
+    private EditText Password;
     private static final int MENU_ITEM_VIEW = 111;
     private static final int MENU_ITEM_EDIT = 222;
     private static final int MENU_ITEM_CREATE = 333;
@@ -58,19 +53,47 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        dbNFT = new HelperNFT(this);
+        dbNFT.createDefaultUsersIfNeed();
+
         this.btnConfirm = (Button) findViewById(R.id.connexion);
         this.btnCreateAccount = (Button) findViewById(R.id.inscription);
+
+        this.Pseudo = (EditText) findViewById(R.id.Pseudo);
+        this.Password = (EditText) findViewById(R.id.MotDePasse);
+
 
         btnCreateAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, AffichageNFT.class);
+                Intent intent = new Intent(MainActivity.this, Inscription.class);
                 startActivity(intent);
             }
         });
+        btnConfirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String pseudo = Pseudo.getText().toString();
+                String pwd = Password.getText().toString();
+
+                if(pseudo.equals("")||pwd.equals("")) {
+                    Toast.makeText(MainActivity.this, "Veuillez compléter tous les champs", Toast.LENGTH_SHORT).show();
+                }else{
+                        /*Boolean checkInfos = dbNFT.checkUsersInformation(pseudo,pwd);
+                        if(checkInfos == true){*/
+                    if(pseudo.equals("aze") && pwd.equals("aze")){
+                                Toast.makeText(MainActivity.this, "Connexion réussie", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(MainActivity.this, AffichageNFT.class);
+                                startActivity(intent);
+                            }else{
+                                //Toast.makeText(MainActivity.this, "Problème de connexion", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(MainActivity.this, pwd + pseudo, Toast.LENGTH_SHORT).show();
+                        }
+                        }
+                    }
+            });
 
         Helper db = new Helper(this);
-        HelperNFT dbNFT = new HelperNFT(this);
         db.createDefaultNotesIfNeed();
 
 
@@ -127,6 +150,8 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
+
     private String readStringData(InputStream stream)  {
         BufferedReader reader = null;
         StringBuilder result = new StringBuilder();
@@ -177,10 +202,10 @@ public class MainActivity extends AppCompatActivity {
         AdapterView.AdapterContextMenuInfo
                 info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
 
-        final Note selectedNote = (Note) this.listView.getItemAtPosition(info.position);
+        //final Note selectedNote = (Note) this.listView.getItemAtPosition(info.position);
 
         if(item.getItemId() == MENU_ITEM_VIEW){
-            Toast.makeText(getApplicationContext(),selectedNote.getNoteContent(),Toast.LENGTH_LONG).show();
+            //Toast.makeText(getApplicationContext(),selectedNote.getNoteContent(),Toast.LENGTH_LONG).show();
         }
         else if(item.getItemId() == MENU_ITEM_CREATE){
             Intent intent = new Intent(this, AffichageNFT.class);
@@ -190,7 +215,7 @@ public class MainActivity extends AppCompatActivity {
         }
         else if(item.getItemId() == MENU_ITEM_EDIT ){
             Intent intent = new Intent(this, AffichageNFT.class);
-            intent.putExtra("note", selectedNote);
+            //intent.putExtra("note", selectedNote);
 
             // Start AddEditNoteActivity, (with feedback).
             this.startActivityForResult(intent,MY_REQUEST_CODE);
@@ -198,11 +223,11 @@ public class MainActivity extends AppCompatActivity {
         else if(item.getItemId() == MENU_ITEM_DELETE){
             // Ask before deleting.
             new AlertDialog.Builder(this)
-                    .setMessage(selectedNote.getNoteTitle()+". Are you sure you want to delete?")
+                    //.setMessage(selectedNote.getNoteTitle()+". Are you sure you want to delete?")
                     .setCancelable(false)
                     .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
-                            deleteNote(selectedNote);
+                            //deleteNote(selectedNote);
                         }
                     })
                     .setNegativeButton("No", null)

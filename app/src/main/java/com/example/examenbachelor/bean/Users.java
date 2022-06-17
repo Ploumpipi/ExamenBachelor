@@ -1,9 +1,11 @@
 package com.example.examenbachelor.bean;
 
+import androidx.annotation.NonNull;
+
 import java.io.Serializable;
 import java.util.Date;
 
-public class Users implements  Serializable{
+public class Users implements Serializable, CharSequence {
     private String Pseudo;
     private String Mdp;
     private String AdresseMail;
@@ -21,6 +23,16 @@ public class Users implements  Serializable{
         this.Solde = Solde;
         this.DoB = DoB;
     }
+
+    public Users(String pseudo){
+        this.Pseudo = pseudo;
+    }
+
+    public Users(String pseudo, String mdp) {
+        this.Pseudo = pseudo;
+        this.Mdp = mdp;
+    }
+
 
     public String getPseudo(){
         return Pseudo;
@@ -53,6 +65,22 @@ public class Users implements  Serializable{
     }
     public void setDoB(String DoB){
         this.DoB = DoB;
+    }
+
+    @Override
+    public int length() {
+        return 0;
+    }
+
+    @Override
+    public char charAt(int i) {
+        return 0;
+    }
+
+    @NonNull
+    @Override
+    public CharSequence subSequence(int i, int i1) {
+        return null;
     }
 }
 

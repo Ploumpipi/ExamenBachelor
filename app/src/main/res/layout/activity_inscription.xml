@@ -4,6 +4,87 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_gravity="center"
     tools:context=".Inscription">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="283dp"
+        android:layout_height="117dp"
+        android:layout_marginTop="80dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/chatringan" />
+
+    <Button
+        android:id="@+id/ValideInscription"
+        android:layout_width="225dp"
+        android:layout_height="37dp"
+        android:layout_marginTop="32dp"
+        android:backgroundTint="#FF9800"
+        android:shadowColor="#000000"
+        android:shadowDx="2"
+        android:shadowDy="3"
+        android:shadowRadius="1"
+        android:text="Valider"
+        app:cornerRadius="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ValideNewPassword" />
+
+    <EditText
+        android:id="@+id/Mail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="188dp"
+        android:backgroundTint="#FFA500"
+        android:hint="Adresse mail"
+        android:inputType="textEmailAddress"
+        android:textColor="#FFA500"
+        android:textColorHint="#FFA500"
+        app:layout_constraintTop_toTopOf="@id/imageView"
+        tools:layout_editor_absoluteX="0dp"></EditText>
+
+    <EditText
+        android:id="@+id/NewPseudo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:backgroundTint="#FFA500"
+        android:hint="Pseudo"
+        android:textColor="#FFA500"
+        android:textColorHint="#FFA500"
+        app:layout_constraintTop_toBottomOf="@+id/Mail"
+        tools:layout_editor_absoluteX="-16dp"></EditText>
+
+    <EditText
+        android:id="@+id/NewPassWord"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:backgroundTint="#FFA500"
+        android:hint="Mot de passe"
+        android:inputType="text"
+        android:textColor="#FFA500"
+        android:textColorHint="#FFA500"
+        app:layout_constraintTop_toBottomOf="@+id/NewPseudo"
+        tools:layout_editor_absoluteX="0dp"></EditText>
+
+    <EditText
+        android:id="@+id/ValideNewPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:backgroundTint="#FFA500"
+        android:hint="Confirmation mot de passe"
+        android:inputType="text"
+        android:textColor="#FFA500"
+        android:textColorHint="#FFA500"
+        app:layout_constraintTop_toBottomOf="@+id/NewPassWord"
+        tools:layout_editor_absoluteX="0dp"></EditText>
+
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
